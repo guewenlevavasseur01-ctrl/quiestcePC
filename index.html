@@ -66,7 +66,9 @@ function pic(c){var u=c.img||S.imgs[c.id];return u?'<img src="'+u+'" alt="">':'<
 function esc(t){return String(t).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]})}
 var app=document.getElementById('app'),db=null,ref=null,unsub=null,G=null;
 var S={imgs:{},pend:{},local:false,admin:false,lib:[],prog:"",me:0,code:"",name:"",err:"",nn:"",ni:"",sel:null,guess:null,gm:false,q:"",mode:"home",busy:false};
-db=makeDb();S.admin=true;
+db=makeDb();
+function chkAdmin(){try{if(location.hash==="#admin")localStorage.setItem("qec-admin","1");S.admin=localStorage.getItem("qec-admin")==="1"}catch(e){S.admin=(location.hash==="#admin")}}
+chkAdmin();window.addEventListener("hashchange",function(){chkAdmin();render()});
 function upd(o){return ref.update(o).catch(function(){S.err="Écriture impossible. Réessaie.";render()})}
 function ensureImgs(){
 if(!G||!G.chars||!db)return;
